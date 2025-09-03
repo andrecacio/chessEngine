@@ -20,7 +20,24 @@ class GameState():
         self.whiteToMove = True
         self.moveLog = []
 
+    def makeMove (self, move):
+        #we can assume that this move is already valid because we will have a list with all valid moves and the class Move with the captured piece we already create takes track od the captured pieces
+        self.board[move.startRow][move.startCol] = "--"
+        self.board[move.endRow][move.endCol] = move.pieceMoved
+        self.moveLog.append(move) #log the move so we can handle it later
+        self.whiteToMove = not self.whiteToMove
+
+
 class Move():
+    #maps keys to values
+    #key : value
+    ranksToRows = {"1": 7, "2": 6, "3": 5, "4": 4,
+                   "5": 3, "6": 2, "7": 1, "8": 0}
+    rowsToRanks = {v: k for k, v in ranksToRows.items()} #for each key we map the value
+    filesToCols = {"a": 0, "b": 1, "c": 2, "d": 3,
+                   "e": 4, "f": 5, "g": 6, "h": 7}
+    colsToFile = {v: k for k, v in filesToCols.items()}
+
 
     def __init__ (self, startSq, endSq, board):
         self.startRow = startSq[0]
@@ -28,6 +45,13 @@ class Move():
         self.endRow = endSq[0]
         self.endCol = endSq[1]
         self.pieceMoved = board[self.startRow][self.startCol]
-        self.pieceMoved = board[self.endRow][self.endCol]
+        self.pieceCaptured = board[self.endRow][self.endCol]
+
+    def getChessNotaion (self):
+
+        return self.getRankFile(self.startRow, self.startCol) + self.getRankFile(self.endRow, self.endCol)
+
+    def getRankFile (self, r, c):
+        return self.colsToFile[c] + self.rowsToRanks[r]
 
 

@@ -51,10 +51,12 @@ def main():
                     sqSelected = (row, col)
                     playerClicks.append(sqSelected)
 
-
-
-
-
+                if len(playerClicks) == 2: #if we click two times we wanna make a move
+                    move = ChessEngine.Move(playerClicks[0],playerClicks[1],gs.board)
+                    print (move.getChessNotaion())
+                    gs.makeMove(move)
+                    sqSelected = ()
+                    playerClicks = []
 
 
         drawGameState(screen, gs)
